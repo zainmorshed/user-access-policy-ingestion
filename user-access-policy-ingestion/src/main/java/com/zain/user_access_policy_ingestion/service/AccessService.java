@@ -18,19 +18,20 @@ import java.util.ArrayList;
 @Service
 public class AccessService {
 
-    public List<UserAccess> filterUsers() {
-        AccessPolicy accessPolicy = accessPolicyParse();
+    public List<UserAccess> filterUsers(AccessPolicy policy) {
+        // AccessPolicy accessPolicy = accessPolicyParseYaml();
 
         UserAccess userAccess = new UserAccess(null, null, null, null);
 
 
         List<UserAccess> userAccesses = new ArrayList<>();
 
-        for (User user : accessPolicy.getUsers()) {
+        for (User user : policy.getUsers()) {
 
             LocalDate currentDate = LocalDate.now();
 
             if (user.isActive()){
+                // userAccess.setAccessStatus("ACTIVE");
                 if (user.getEmail() != null && user.getEmail().contains("@")) {
                     if (!user.getAccessRules().isEmpty()) {
 
@@ -43,6 +44,7 @@ public class AccessService {
                             userAccess.setEmail(user.getEmail());
                             userAccess.setRoles(user.getRoles());
                             userAccess.setEnvironments(user.getAccessRules());
+                            
 
 
                         userAccesses.add(userAccess);
@@ -56,15 +58,28 @@ public class AccessService {
         
 
 
-    public AccessPolicy accessPolicyParse() {
+    public AccessPolicy accessPolicyParseYaml() {
 
-        try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             mapper.registerModule(new JavaTimeModule());
             InputStream inputStream = getClass().getClassLoader().getResourceAsStream("access-policy.yaml");
+
+        try {
             return mapper.readValue(inputStream, AccessPolicy.class);
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse yaml", e);
+        }
+    }
+
+    public AccessPolicy accessPolicyParseJson(String request) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        try {
+            return mapper.readValue(request, AccessPolicy.class);
+        } catch(Exception e) {
+            throw new RuntimeException("Failed to parse json", e);
         }
     }
 

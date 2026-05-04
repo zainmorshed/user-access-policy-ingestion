@@ -8,6 +8,7 @@ public class UserAccess {
     private String email;
     private List<Role> roles;
     private List<AccessRules> environments;
+    
 
 
     public UserAccess(String userId, String email, List<Role> roles, List<AccessRules> environments) {
@@ -15,10 +16,12 @@ public class UserAccess {
         this.email = email;
         this.roles = roles;
         this.environments = environments;
+      
     }
 
     public UserAccess(){}
-    
+
+
     public String getUserId() {
         return userId;
     }

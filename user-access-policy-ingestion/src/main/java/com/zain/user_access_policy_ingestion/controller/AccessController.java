@@ -30,10 +30,20 @@ public class AccessController {
     //     return entity;
     // }
 
-    @GetMapping("/access-rules")
-    public List<UserAccess> getAllusersAccess(){
-
-        return accessService.filterUsers();
+    @GetMapping("/access-rules/yaml")
+    public List<UserAccess> getUserAccessYaml(){
+        AccessPolicy policy = accessService.accessPolicyParseYaml();
+        return accessService.filterUsers(policy);
+        // return accessService.filterUsers();
 
     }
+
+    @PostMapping("/access-rules/json")
+    public List<UserAccess> getUserAccessJson(@RequestBody String request){
+        AccessPolicy policy = accessService.accessPolicyParseJson(request);
+        return accessService.filterUsers(policy);
+    }
+
+    // @GetMapping("/access-rule/{id}")
+    // public UserAccess getUserAccess(@PathVariable)
 }
