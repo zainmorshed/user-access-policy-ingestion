@@ -1,0 +1,113 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: user-access-policy-ingestion
+meta:
+  id: wrk_ecb96776ecec40b586d9c7eeb598f5fa
+  created: 1777924063569
+  modified: 1777924063569
+  description: ""
+collection:
+  - url: http://localhost:8080/users/access-rules/yaml
+    name: /access-rules/yaml
+    meta:
+      id: req_e7698e6ed7134e07ba1bf9e7b39f96c2
+      created: 1777924070166
+      modified: 1777932372120
+      isPrivate: false
+      description: ""
+      sortKey: -1777924070166
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/users/access-rules/json
+    name: /access-rules/json
+    meta:
+      id: req_5be994159b4842abb736edba5a31b982
+      created: 1777932272806
+      modified: 1777932367967
+      isPrivate: false
+      description: ""
+      sortKey: -1777743491328.5
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "policy_metadata": {
+            "policy_id": "POL-2026-04",
+            "source_system": "iam_vendor",
+            "effective_date": "2026-04-01"
+          },
+          "users": [
+            {
+              "user_id": "u123",
+              "email": "alice@company.com",
+              "active": true,
+              "roles": ["ADMIN", "SUPPORT"],
+              "access_rules": [
+                {
+                  "environment": "PROD",
+                  "start_date": "2026-04-01",
+                  "end_date": "2026-12-31"
+                },
+                {
+                  "environment": "DEV",
+                  "start_date": "2026-04-01",
+                  "end_date": null
+                }
+              ]
+            },
+            {
+              "user_id": "u456",
+              "email": "bob@company.com",
+              "active": false,
+              "roles": ["VIEWER"],
+              "access_rules": [
+                {
+                  "environment": "DEV",
+                  "start_date": "2026-04-01",
+                  "end_date": "2026-05-01"
+                }
+              ]
+            }
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_bac6fc500b00158b658492fef0aad84a04f46934
+    created: 1777924063579
+    modified: 1777924063579
+environments:
+  name: Base Environment
+  meta:
+    id: env_bac6fc500b00158b658492fef0aad84a04f46934
+    created: 1777924063575
+    modified: 1777924063575
+    isPrivate: false
