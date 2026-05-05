@@ -31,11 +31,11 @@ collection:
         store: true
       rebuildPath: true
   - url: http://localhost:8080/users/access-rules/json
-    name: /access-rules/json
+    name: /access-rules/json - test 1
     meta:
       id: req_5be994159b4842abb736edba5a31b982
       created: 1777932272806
-      modified: 1777932367967
+      modified: 1777992883590
       isPrivate: false
       description: ""
       sortKey: -1777743491328.5
@@ -80,6 +80,81 @@ collection:
                   "end_date": "2026-05-01"
                 }
               ]
+            }
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/users/access-rules/json
+    name: /access-rules/json - test 2
+    meta:
+      id: req_d3654b2688d94751bb08922e898e2edb
+      created: 1777992861669
+      modified: 1777992896417
+      isPrivate: false
+      description: ""
+      sortKey: -1777653201909.75
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "policy_metadata": {
+            "policy_id": "POL-2026-05",
+            "source_system": "iam_vendor_v2",
+            "effective_date": "2026-05-01"
+          },
+          "users": [
+            {
+              "user_id": "u789",
+              "email": "charlie@company.com",
+              "active": true,
+              "roles": ["viewer", "ADMIN", "viewer"],
+              "access_rules": [
+                {
+                  "environment": "QA",
+                  "start_date": "2026-01-01",
+                  "end_date": "2026-02-01"
+                },
+                {
+                  "environment": "PROD",
+                  "start_date": "2026-03-01",
+                  "end_date": null
+                }
+              ]
+            },
+            {
+              "user_id": "u999",
+              "email": "invalid-email-format",
+              "active": true,
+              "roles": ["SUPPORT"],
+              "access_rules": [
+                {
+                  "environment": "DEV",
+                  "start_date": "2026-04-15",
+                  "end_date": "2026-04-20"
+                }
+              ]
+            },
+            {
+              "user_id": "u555",
+              "email": "dana@company.com",
+              "active": true,
+              "roles": [],
+              "access_rules": []
             }
           ]
         }

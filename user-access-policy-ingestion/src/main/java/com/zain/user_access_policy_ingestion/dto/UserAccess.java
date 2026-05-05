@@ -7,11 +7,11 @@ public class UserAccess {
     private String userId;
     private String email;
     private List<Role> roles;
-    private List<AccessRules> environments;
+    private List<EnvironmentAccess> environments;
     
 
 
-    public UserAccess(String userId, String email, List<Role> roles, List<AccessRules> environments) {
+    public UserAccess(String userId, String email, List<Role> roles, List<EnvironmentAccess> environments) {
         this.userId = userId;
         this.email = email;
         this.roles = roles;
@@ -40,10 +40,10 @@ public class UserAccess {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    public List<AccessRules> getEnvironments() {
+    public List<EnvironmentAccess> getEnvironments() {
         return environments;
     }
-    public void setEnvironments(List<AccessRules> environments) {
+    public void setEnvironments(List<EnvironmentAccess> environments) {
         this.environments = environments;
     }
 

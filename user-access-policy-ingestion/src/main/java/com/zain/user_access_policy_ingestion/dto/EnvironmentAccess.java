@@ -1,12 +1,14 @@
 package com.zain.user_access_policy_ingestion.dto;
 
+import java.time.LocalDate;
+
 public class EnvironmentAccess {
     private String environment;
     private String accessStatus;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public EnvironmentAccess(String environment, String accessStatus, String startDate, String endDate) {
+    public EnvironmentAccess(String environment, String accessStatus, LocalDate startDate, LocalDate endDate) {
         this.environment = environment;
         this.accessStatus = accessStatus;
         this.startDate = startDate;
@@ -27,17 +29,17 @@ public class EnvironmentAccess {
     public void setAccessStatus(String accessStatus) {
         this.accessStatus = accessStatus;
     }
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
-    public void setEndDate(String ednDate) {
-        this.endDate = ednDate;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
 
