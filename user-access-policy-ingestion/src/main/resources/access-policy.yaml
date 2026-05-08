@@ -1,4 +1,4 @@
-policy_metadata:
+policyMetadata:
   policy_id: "POL-2026-04"
   source_system: "iam_vendor"
   effective_date: "2026-04-01"

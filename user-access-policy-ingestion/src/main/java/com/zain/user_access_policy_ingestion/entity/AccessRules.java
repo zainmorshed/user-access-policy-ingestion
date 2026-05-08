@@ -1,10 +1,27 @@
-package com.zain.user_access_policy_ingestion.dto;
+package com.zain.user_access_policy_ingestion.entity;
 
 import java.time.LocalDate;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
+
+@Entity
 public class AccessRules {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String environment;
     private LocalDate start_date;
     private LocalDate end_date;

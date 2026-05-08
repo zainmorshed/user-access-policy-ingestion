@@ -44,7 +44,7 @@ collection:
       mimeType: application/json
       text: |-
         {
-          "policy_metadata": {
+          "policyMetadata": {
             "policy_id": "POL-2026-04",
             "source_system": "iam_vendor",
             "effective_date": "2026-04-01"
@@ -112,7 +112,7 @@ collection:
       mimeType: application/json
       text: |
         {
-          "policy_metadata": {
+          "policyMetadata": {
             "policy_id": "POL-2026-05",
             "source_system": "iam_vendor_v2",
             "effective_date": "2026-05-01"

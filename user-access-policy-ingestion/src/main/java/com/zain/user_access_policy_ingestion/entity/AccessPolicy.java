@@ -1,10 +1,36 @@
-package com.zain.user_access_policy_ingestion.dto;
+package com.zain.user_access_policy_ingestion.entity;
 
 import java.util.*;
 
+import jakarta.persistence.Entity;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+
+
+@Entity
 public class AccessPolicy {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "metadata_id")
     private PolicyMetadata policyMetadata;
+
+    @OneToMany(mappedBy = "accessPolicy", cascade = CascadeType.ALL)
     private List<User> users;
+
+
+
+    
 
     
     public AccessPolicy(PolicyMetadata policyMetadata, List<User> users) {

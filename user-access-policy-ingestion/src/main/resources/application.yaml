@@ -1,3 +1,22 @@
 spring:
   application:
     name: user-access-policy-ingestion
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user_access_policy_ingestion
+    username: postgres
+    password: Jakarta110539069!
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+    sql:
+      init:
+        mode: never
