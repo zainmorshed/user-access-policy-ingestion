@@ -5,11 +5,14 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 
-import com.zain.user_access_policy_ingestion.dto.AccessPolicy;
-import com.zain.user_access_policy_ingestion.dto.AccessRules;
+import com.zain.user_access_policy_ingestion.entity.AccessPolicy;
+import com.zain.user_access_policy_ingestion.entity.AccessRules;
+import com.zain.user_access_policy_ingestion.entity.User;
+import com.zain.user_access_policy_ingestion.entity.PolicyMetadata;
+
 import com.zain.user_access_policy_ingestion.dto.EnvironmentAccess;
-import com.zain.user_access_policy_ingestion.dto.User;
 import com.zain.user_access_policy_ingestion.dto.UserAccess;
+import com.zain.user_access_policy_ingestion.repository.AccessPolicyRepository;
 
 import tools.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -21,15 +24,78 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 @Service
 public class AccessService {
+
+
+
+    // @Autowired
+    private final AccessPolicyRepository accessPolicyRepository;
+    
+    public AccessService(AccessPolicyRepository accessPolicyRepository){
+        this.accessPolicyRepository = accessPolicyRepository;
+    }
+
+
+    // //Map DTO to Entity - manually transfering the data
+    // public com.zain.user_access_policy_ingestion.entity.AccessPolicy savePolicy(AccessPolicy dto) {
+    // // 1. Create a new Entity instance
+    // com.zain.user_access_policy_ingestion.entity.AccessPolicy entity = new com.zain.user_access_policy_ingestion.entity.AccessPolicy();
+    
+    // // 2. Copy fields from DTO to Entity
+    // // entity.setName(dto.getName()); // Example
+    
+    // // 3. Save the entity
+    // return accessPolicyRepository.save(entity);
+    // }
+
+    private void linkRelationships(AccessPolicy policy) {
+
+
+
+        if (policy.getPolicyMetadata() != null) {
+            // link metadata back to policy
+            policy.getPolicyMetadata().setAccessPolicy(policy);
+        }else {
+            throw new IllegalArgumentException("policyMetadata is required");
+        }
+        
+        
+
+        for (User user : policy.getUsers()) {
+
+            // link user to policy
+            user.setAccessPolicy(policy);
+
+            for (AccessRules rule : user.getAccessRules()) {
+
+                // link access rule to user
+                rule.setUser(user);
+            }
+        }
+    }
+
+    public AccessPolicy savePolicy(AccessPolicy policy) {
+        linkRelationships(policy);
+        return accessPolicyRepository.save(policy);
+    }
+
+
+
+    public void deletePolicy(Long id) {
+        accessPolicyRepository.deleteById(id);
+    }
 
     public List<UserAccess> filterUsers(AccessPolicy policy) {
         // AccessPolicy accessPolicy = accessPolicyParseYaml();
 
 
         List<UserAccess> userAccesses = new ArrayList<>();
-
+        //currently using dto AccessPolicy - not entity
         for (User user : policy.getUsers()) {
             UserAccess userAccess = new UserAccess(null, null, null, null);
 

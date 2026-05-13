@@ -6,9 +6,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zain.user_access_policy_ingestion.service.AccessService;
 import com.zain.user_access_policy_ingestion.dto.*;
+
+import com.zain.user_access_policy_ingestion.entity.AccessPolicy;
+
+
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -17,10 +23,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AccessController {
 
 
-    @Autowired
-    AccessService accessService = new AccessService();
-    
-    // private final AccessService accessService;
+    // @Autowired
+    // AccessService accessService = new AccessService();
+
+    private final AccessService accessService;
+
+
+    public AccessController(AccessService accessService) {
+        this.accessService = accessService;
+    }
+
+
+    @RequestMapping("/save-policy")
+    public String saveAccessPolicy(@RequestBody AccessPolicy policy) {
+        accessService.savePolicy(policy);
+        return "Access Policy successfully saved";
+    }
+
+
+
+    @DeleteMapping("/delete-policy-by-id/{id}")
+    public String deletePolicyById(@PathVariable Long id) {
+        accessService.deletePolicy(id);
+        return "Access Policy for user id: " + id + " has been deleted";
+    }
 
     // public AccessController(AccessService accessService){
     //     this.accessService = accessService;

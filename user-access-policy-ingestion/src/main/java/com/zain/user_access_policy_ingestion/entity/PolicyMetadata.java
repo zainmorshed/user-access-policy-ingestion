@@ -31,6 +31,15 @@ public class PolicyMetadata {
 
     public PolicyMetadata(){}
     
+    
+    public AccessPolicy getAccessPolicy() {
+        return accessPolicy;
+    }
+
+    public void setAccessPolicy(AccessPolicy accessPolicy) {
+        this.accessPolicy = accessPolicy;
+    }
+
     public String getPolicy_id() {
         return policy_id;
     }

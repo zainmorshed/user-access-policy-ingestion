@@ -10,6 +10,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,6 +23,7 @@ import jakarta.persistence.EnumType;
 
 
 @Entity
+@Table(name = "users")
 public class User {
     
     @Id
@@ -43,6 +45,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
 
+
     @JsonProperty("access_rules")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<AccessRules> accessRules;
@@ -57,6 +60,13 @@ public class User {
 
     public User(){}
 
+
+    public AccessPolicy getAccessPolicy() {
+        return accessPolicy;
+    }
+    public void setAccessPolicy(AccessPolicy accessPolicy) {
+    this.accessPolicy = accessPolicy;
+    }
     public String getUser_id() {
         return user_id;
     }

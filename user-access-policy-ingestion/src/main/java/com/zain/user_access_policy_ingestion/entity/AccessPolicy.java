@@ -41,12 +41,13 @@ public class AccessPolicy {
     public AccessPolicy(){}
 
 
-    public PolicyMetadata getpolicyMetadata() {
+
+    public PolicyMetadata getPolicyMetadata() {
         return policyMetadata;
     }
 
 
-    public void setpolicyMetadata(PolicyMetadata policyMetadata) {
+    public void setPolicyMetadata(PolicyMetadata policyMetadata) {
         this.policyMetadata = policyMetadata;
     }
 
