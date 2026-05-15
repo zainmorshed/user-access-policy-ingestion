@@ -18,7 +18,7 @@ public class AsyncConfig {
 
         executor.setCorePoolSize(3);
         executor.setMaxPoolSize(10);
-        executor.setQueueCapacity(50);
+        executor.setQueueCapacity(2);
         executor.setThreadNamePrefix("policy-worker-");
         
         executor.initialize();
