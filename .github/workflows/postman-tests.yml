@@ -47,7 +47,7 @@ jobs:
           APP_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/user_access_policy_ingestion
         run: |
-          ./mvnw spring-boot:run > spring-boot.log 2>&1 &
+          ./mvnw spring-boot:run > "$GITHUB_WORKSPACE/spring-boot.log" 2>&1 &
           echo "Waiting for application to start..."
           sleep 15
 
