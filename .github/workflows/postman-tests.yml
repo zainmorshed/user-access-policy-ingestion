@@ -46,7 +46,7 @@ jobs:
           APP_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/user_access_policy_ingestion
         run: |
-          ./mvnw spring-boot:run &
+          ./mvnw spring-boot:run > spring-boot.log 2>&1 &
           echo "Waiting for application to start..."
           sleep 15
 
@@ -61,3 +61,10 @@ jobs:
           APP_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
         run: |
           postman collection run "45007541-53eb88f3-fbc2-4df6-a81b-fa5d09e1c767"
+      
+      #runs this step if the Postman tests fail
+      - name: Print Spring Boot Application Logs on Failure
+        if: failure()
+        run: |
+          echo "=== SPRING BOOT RECENT LOGS ==="
+          cat spring-boot.log || echo "No log file found."
