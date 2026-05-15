@@ -24,9 +24,12 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.lang.Thread;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.scheduling.annotation.Async;
 
 @Service
 public class AccessService {
@@ -82,6 +85,23 @@ public class AccessService {
     public AccessPolicy savePolicy(AccessPolicy policy) {
         linkRelationships(policy);
         return accessPolicyRepository.save(policy);
+    }
+
+    @Async("policyExecutor")
+    public void processPolicyAsync(AccessPolicy accessPolicy) {
+
+        System.out.println("START " + Thread.currentThread().getName());
+
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        linkRelationships(accessPolicy);
+        savePolicy(accessPolicy);
+        
+        System.out.println("END " + Thread.currentThread().getName());
     }
 
 
