@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/user_access_policy_ingestion
-    username: postgres
-    password: Jakarta110539069!
+    username: ${APP_DB_USER}
+    password: ${APP_DB_PASSWORD}
 
   jpa:
     hibernate:
