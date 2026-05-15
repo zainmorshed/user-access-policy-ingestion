@@ -49,7 +49,7 @@ jobs:
         run: |
           ./mvnw spring-boot:run > "$GITHUB_WORKSPACE/spring-boot.log" 2>&1 &
           echo "Waiting for application to start..."
-          sleep 15
+          sleep 45
 
       #authenticate postman
       - name: Login to Postman CLI
