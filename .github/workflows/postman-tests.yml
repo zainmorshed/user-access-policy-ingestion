@@ -41,6 +41,7 @@ jobs:
 
       #start java app in the background using creds
       - name: Start Spring Boot Application
+        working-directory: ./user-access-policy-ingestion 
         env:
           APP_DB_USER: ${{ secrets.APP_DB_USER }}
           APP_DB_PASSWORD: ${{ secrets.APP_DB_PASSWORD }}
