@@ -2,6 +2,7 @@ package com.zain.user_access_policy_ingestion.service;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,13 @@ import com.zain.user_access_policy_ingestion.entity.AccessPolicy;
 import com.zain.user_access_policy_ingestion.entity.AccessRules;
 import com.zain.user_access_policy_ingestion.entity.User;
 import com.zain.user_access_policy_ingestion.entity.PolicyMetadata;
+import com.zain.user_access_policy_ingestion.entity.PolicyJob;
+import com.zain.user_access_policy_ingestion.emum.Status;
 
 import com.zain.user_access_policy_ingestion.dto.EnvironmentAccess;
 import com.zain.user_access_policy_ingestion.dto.UserAccess;
 import com.zain.user_access_policy_ingestion.repository.AccessPolicyRepository;
+import com.zain.user_access_policy_ingestion.repository.PolicyJobRepository;
 
 import tools.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -25,6 +29,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.lang.Thread;
+import java.security.Policy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,10 +43,14 @@ public class AccessService {
 
     // @Autowired
     private final AccessPolicyRepository accessPolicyRepository;
+    private final PolicyJobRepository policyJobRepository;
     
-    public AccessService(AccessPolicyRepository accessPolicyRepository){
+    public AccessService(AccessPolicyRepository accessPolicyRepository, PolicyJobRepository policyJobRepository){
         this.accessPolicyRepository = accessPolicyRepository;
+        this.policyJobRepository = policyJobRepository;
     }
+
+
 
 
     // //Map DTO to Entity - manually transfering the data
@@ -86,6 +95,32 @@ public class AccessService {
         linkRelationships(policy);
         return accessPolicyRepository.save(policy);
     }
+
+    
+    public PolicyJob createPolicyJob(AccessPolicy policy) {
+
+        PolicyJob policyJob = new PolicyJob();
+
+        policyJob.setAccessPolicy(policy);
+
+
+        policyJob.setStartDate(LocalDateTime.now());
+        policyJob.setStatus(Status.PENDING);
+
+        return policyJobRepository.save(policyJob);
+
+    }
+
+
+    // public PolicyJob savePolicy(AccessPolicy policy) {
+    //     linkRelationships(policy);
+
+    //     accessPolicyRepository.save(policy);
+    
+
+    // }
+
+    
 
     @Async("policyExecutor")
     public void processPolicyAsync(AccessPolicy accessPolicy) {

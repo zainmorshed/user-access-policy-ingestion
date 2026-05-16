@@ -36,10 +36,8 @@ public class AccessController {
 
     @RequestMapping("/save-policy")
     public String saveAccessPolicy(@RequestBody AccessPolicy policy) {
-        // accessService.savePolicy(policy);
         accessService.processPolicyAsync(policy);
         return "Access Policy successfully saved";
-
     }
 
 
