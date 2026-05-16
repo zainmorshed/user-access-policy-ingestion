@@ -8,7 +8,7 @@ import com.zain.user_access_policy_ingestion.service.AccessService;
 import com.zain.user_access_policy_ingestion.dto.*;
 
 import com.zain.user_access_policy_ingestion.entity.AccessPolicy;
-
+import com.zain.user_access_policy_ingestion.entity.PolicyJob;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +34,20 @@ public class AccessController {
     }
 
 
-    @RequestMapping("/save-policy")
-    public String saveAccessPolicy(@RequestBody AccessPolicy policy) {
-        accessService.processPolicyAsync(policy);
-        return "Access Policy successfully saved";
+    // @RequestMapping("/save-policy")
+    // public String saveAccessPolicy(@RequestBody AccessPolicy policy) {
+        
+    //     accessService.processPolicyAsync(policy);
+    //     return "Access Policy successfully saved";
+    // }
+
+    @PostMapping("/save-policy")
+    public PolicyJob saveAccessPolicy(@RequestBody AccessPolicy policy) {
+        PolicyJob job = accessService.createPolicyJob(policy);
+
+        accessService.processPolicyAsync(policy, job.getId());
+
+        return job;
     }
 
 

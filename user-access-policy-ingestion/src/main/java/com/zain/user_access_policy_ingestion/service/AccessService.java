@@ -93,6 +93,7 @@ public class AccessService {
 
     public AccessPolicy savePolicy(AccessPolicy policy) {
         linkRelationships(policy);
+    
         return accessPolicyRepository.save(policy);
     }
 
@@ -100,9 +101,8 @@ public class AccessService {
     public PolicyJob createPolicyJob(AccessPolicy policy) {
 
         PolicyJob policyJob = new PolicyJob();
-
+        //link policyJob to AccessPolicy
         policyJob.setAccessPolicy(policy);
-
 
         policyJob.setStartDate(LocalDateTime.now());
         policyJob.setStatus(Status.PENDING);
@@ -112,29 +112,34 @@ public class AccessService {
     }
 
 
-    // public PolicyJob savePolicy(AccessPolicy policy) {
-    //     linkRelationships(policy);
-
-    //     accessPolicyRepository.save(policy);
-    
-
-    // }
-
-    
-
     @Async("policyExecutor")
-    public void processPolicyAsync(AccessPolicy accessPolicy) {
+    public void processPolicyAsync(AccessPolicy accessPolicy, Long jobId) {
 
         System.out.println("START " + Thread.currentThread().getName());
 
+        PolicyJob job = policyJobRepository.findById(jobId).orElseThrow(() -> new RuntimeException("Job not found"));
+
+
         try {
+            job.setStatus(Status.PROCESSING);
+            policyJobRepository.save(job);
+
             Thread.sleep(20000);
-        } catch (InterruptedException e) {
+            linkRelationships(accessPolicy);
+            savePolicy(accessPolicy);
+
+            job.setStatus(Status.COMPLETED);
+            job.setEndDate(LocalDateTime.now());
+            policyJobRepository.save(job);
+
+        } catch (Exception e) {
+            job.setStatus(Status.FAILED);
+            job.setEndDate(LocalDateTime.now());
+            job.setErrorMessage(e.getMessage());
+            policyJobRepository.save(job);
+
             throw new RuntimeException(e);
         }
-
-        linkRelationships(accessPolicy);
-        savePolicy(accessPolicy);
         
         System.out.println("END " + Thread.currentThread().getName());
     }
