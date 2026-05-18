@@ -102,7 +102,7 @@ public class AccessService {
 
         PolicyJob policyJob = new PolicyJob();
         //link policyJob to AccessPolicy
-        policyJob.setAccessPolicy(policy);
+        // policyJob.setAccessPolicy(policy); --> add this relationship back later
 
         policyJob.setStartDate(LocalDateTime.now());
         policyJob.setStatus(Status.PENDING);

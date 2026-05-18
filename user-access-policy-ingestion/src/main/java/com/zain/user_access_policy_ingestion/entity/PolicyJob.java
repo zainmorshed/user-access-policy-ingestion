@@ -30,9 +30,9 @@ public class PolicyJob {
     private LocalDateTime endDate;
     private String errorMessage;
 
-    @OneToOne
-    @JoinColumn(name = "access_policy_id")
-    private AccessPolicy accessPolicy;
+    // @OneToOne
+    // @JoinColumn(name = "access_policy_id")
+    // private AccessPolicy accessPolicy;
 
 
 
@@ -48,13 +48,13 @@ public class PolicyJob {
 
 
 
-    public AccessPolicy getAccessPolicy() {
-    return accessPolicy;
-    }
+    // public AccessPolicy getAccessPolicy() {
+    // return accessPolicy;
+    // }
 
-    public void setAccessPolicy(AccessPolicy accessPolicy) {
-        this.accessPolicy = accessPolicy;
-    }
+    // public void setAccessPolicy(AccessPolicy accessPolicy) {
+    //     this.accessPolicy = accessPolicy;
+    // }
 
 
     public long getId() {
