@@ -82,23 +82,36 @@ public class AccessService {
         
         
 
-        for (User user : policy.getUsers()) {
+        // for (User user : policy.getUsers()) {
 
-            // link user to policy
-            user.setAccessPolicy(policy);
+        //     // link user to policy
+        //     user.setAccessPolicy(policy);
 
-            for (AccessRules rule : user.getAccessRules()) {
+        //     for (AccessRules rule : user.getAccessRules()) {
 
-                // link access rule to user
-                rule.setUser(user);
-            }
-        }
+        //         // link access rule to user
+        //         rule.setUser(user);
+        //     }
+        //}
     }
 
     public AccessPolicy savePolicy(AccessPolicy policy) {
         linkRelationships(policy);
     
         return accessPolicyRepository.save(policy);
+    }
+
+
+//seperation of concern - create independent task with completableFuture to safely parallelize
+    private void processUser(User user, AccessPolicy policy) {
+        // link user to policy
+        user.setAccessPolicy(policy);
+
+        for(AccessRules rule : user.getAccessRules()) {
+            // link access rule to user
+            rule.setUser(user);
+        }
+
     }
 
     
@@ -115,7 +128,7 @@ public class AccessService {
 
     }
 
-
+//implement CompletableFuture to parallelize tasks
     @Async("policyExecutor")
     public void processPolicyAsync(AccessPolicy accessPolicy, Long jobId) {
 

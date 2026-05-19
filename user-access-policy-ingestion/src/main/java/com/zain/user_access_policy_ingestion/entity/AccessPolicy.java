@@ -28,10 +28,6 @@ public class AccessPolicy {
     @OneToMany(mappedBy = "accessPolicy", cascade = CascadeType.ALL)
     private List<User> users;
 
-
-
-    
-
     
     public AccessPolicy(PolicyMetadata policyMetadata, List<User> users) {
         this.policyMetadata = policyMetadata;
