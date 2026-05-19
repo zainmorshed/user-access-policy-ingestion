@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.lang.Thread;
 import java.security.Policy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -40,6 +42,8 @@ import org.springframework.scheduling.annotation.Async;
 public class AccessService {
 
 
+
+    private static final Logger log = LoggerFactory.getLogger(AccessService.class);
 
     // @Autowired
     private final AccessPolicyRepository accessPolicyRepository;
@@ -115,7 +119,8 @@ public class AccessService {
     @Async("policyExecutor")
     public void processPolicyAsync(AccessPolicy accessPolicy, Long jobId) {
 
-        System.out.println("START " + Thread.currentThread().getName());
+        // System.out.println("START " + Thread.currentThread().getName());
+        log.info("START {}", Thread.currentThread().getName());    
 
         PolicyJob job = policyJobRepository.findById(jobId).orElseThrow(() -> new RuntimeException("Job not found"));
 
@@ -133,9 +138,12 @@ public class AccessService {
             policyJobRepository.save(job);
 
         } catch (Exception e) {
+            log.error("Error processing job {}", jobId, e);
+
             job.setStatus(Status.FAILED);
             job.setEndDate(LocalDateTime.now());
             job.setErrorMessage(e.getMessage());
+
             policyJobRepository.save(job);
 
             throw new RuntimeException(e);

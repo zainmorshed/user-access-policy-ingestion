@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.zain.user_access_policy_ingestion.dto.AccessPolicy;
+import com.zain.user_access_policy_ingestion.entity.AccessPolicy;
 import com.zain.user_access_policy_ingestion.service.AccessService;
 
 @Service
