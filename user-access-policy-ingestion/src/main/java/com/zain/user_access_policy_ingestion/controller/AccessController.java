@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zain.user_access_policy_ingestion.service.AccessService;
+import com.zain.user_access_policy_ingestion.service.KafkaProducerService;
 import com.zain.user_access_policy_ingestion.dto.*;
 
 import com.zain.user_access_policy_ingestion.entity.AccessPolicy;
@@ -27,10 +28,12 @@ public class AccessController {
     // AccessService accessService = new AccessService();
 
     private final AccessService accessService;
+    private final KafkaProducerService kafkaProducerService;
 
 
-    public AccessController(AccessService accessService) {
+    public AccessController(AccessService accessService, KafkaProducerService kafkaProducerService) {
         this.accessService = accessService;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
 
@@ -45,7 +48,9 @@ public class AccessController {
     public PolicyJob saveAccessPolicy(@RequestBody AccessPolicy policy) {
         PolicyJob job = accessService.createPolicyJob(policy);
 
-        accessService.processPolicyAsync(policy, job.getId());
+        // accessService.processPolicyAsync(policy, job.getId());
+        kafkaProducerService.sendPolicy(policy);
+
 
         return job;
     }
